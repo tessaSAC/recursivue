@@ -1,34 +1,43 @@
-<template>
-  <img class="logo" alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld :msg="msg"/>
-  <div class="btn">
-    <el-button type="primary" @click="startHacking">
-      Get Started
-    </el-button>
-  </div>
-</template>
-
 <script>
-import { ref } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import ChildComponent from './components/ChildComponent.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ChildComponent
   },
-  setup() {
-    const msg = ref("Welcome to Element Plus, a Vue 3.0 based component library")
-    const startHacking = () => {
-      msg.value = "Start coding with Element Plus with 💖"
-    }
-    return {
-      msg,
-      startHacking
+
+  data: () => ({
+    numChildren: 0,
+  }),
+
+  methods: {
+    addChild() {
+      ++this.numChildren
     }
   }
 }
 </script>
+
+<template>
+  <el-container>
+    <el-header height="2.5rem">
+      <el-row justify="space-between" align="middle">
+        <el-col :span="3">
+          <h1>Main app</h1>
+        </el-col>
+        <el-col :span="3" class="numChildren">Child count: {{ numChildren }}</el-col>
+        <el-col :span="3">
+          <el-button plain round type="success" @click="addChild">Add child</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <el-main>
+      <ChildComponent v-if="numChildren" :numChildren="numChildren" :parentNumber="0" />
+    </el-main>
+  </el-container>
+</template>
 
 <style>
 body {
@@ -39,12 +48,17 @@ body {
 #app {
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-.logo {
-  width: 50%;
+
+.el-container {
+  padding: 2.5rem;
 }
-.btn {
-  margin-top: 100px;
+
+.el-header {
+  padding: 0;
+}
+
+.el-main {
+  padding: 1rem;
 }
 </style>
