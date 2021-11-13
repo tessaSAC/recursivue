@@ -1,18 +1,3 @@
-<template>
-  <el-card :body-style="myStyle">
-    <el-row align="middle" justify="space-around">
-      <el-col :span="6">
-        <h2>Child no. {{ myNumber }}</h2>
-      </el-col>
-      <el-col :span="8">
-        <el-button plain round type="warning" @click="getBgColor">Change color</el-button>
-      </el-col>
-    </el-row>
-
-    <ChildComponent v-if="numChildrenLeft" :parentNumber="myNumber" :numChildren="numChildrenLeft" />
-  </el-card>
-</template>
-
 <script>
 export default {
   name: 'ChildComponent',
@@ -51,14 +36,15 @@ export default {
   },
 
   methods: {
+    alertButtonClicked() {
+      console.warn('BUTTON CLICKED!')
+      this.getBgColor()
+    },
+
     getBgColor() {
       const whichColor = Math.floor(Math.random() * this.bgColorsPossible.length)
 
-      console.log(whichColor, this.bgColorsPossible.length)
-
       this.myStyle.background = this.bgColorsPossible[whichColor]
-
-      console.log(this.myStyle.background)
     },
   },
 
@@ -67,6 +53,21 @@ export default {
   }
 }
 </script>
+
+<template>
+  <el-card :body-style="myStyle">
+    <el-row align="middle" justify="space-around">
+      <el-col :span="6">
+        <h2>Child no. {{ myNumber }}</h2>
+      </el-col>
+      <el-col :span="8">
+        <el-button plain round type="warning" @click="alertButtonClicked">Change color</el-button>
+      </el-col>
+    </el-row>
+
+    <ChildComponent v-if="numChildrenLeft" :parentNumber="myNumber" :numChildren="numChildrenLeft" />
+  </el-card>
+</template>
 
 <style scoped>
 .el-row {
